@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Puzzle Animation</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.8), rgba(255, 229, 204, 0.8)); /* Neon teal and beige gradient */
+            font-family: Arial, sans-serif;
+            backdrop-filter: blur(20px); /* Enhanced glassy effect */
+            color: white;
+        }
+        header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.8)); /* Neon black and teal gradient */
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
+            border-radius: 10px; /* Rounded corners for a smooth look */
+            position: absolute; /* Position absolute to remove spacing */
+            top: 0; /* Align to the top */
+            left: 0; /* Align to the left */
+        }
+        footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.8)); /* Neon black and teal gradient */
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
+            border-radius: 10px; /* Rounded corners for a smooth look */
+            position: absolute; /* Position absolute to remove spacing */
+            bottom: 0; /* Align footer to the bottom */
+            left: 0; /* Align to the left */
+        }
+        .nav-text {
+            margin: 10px 0;
+            font-size: 1.2em;
+            opacity: 0.8;
+            transition: opacity 0.5s;
+        }
+        .nav-text:hover {
+            opacity: 1;
+        }
+        .sign-up-button {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.8)); /* Match button to header and footer */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 30px; /* Increased spacing above the button */
+        }
+        .sign-up-button:hover {
+            filter: brightness(1.1); /* Slightly brighten on hover */
+        }
+        .hover-text {
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #FFF;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .hover-text:hover {
+            opacity: 1;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0; /* Margin around the container */
+        }
+        .frame {
+            --nSliceX: 2; /* Number of slices in X direction */
+            --nSliceY: 2; /* Number of slices in Y direction */
+            display: grid;
+            width: 40vmin; /* Width of the frame */
+            height: 30vmin; /* Height of the frame */
+            grid-template-columns: repeat(var(--nSliceX), 1fr);
+            grid-template-rows: repeat(var(--nSliceY), 1fr);
+            position: relative;
+            overflow: hidden; /* Ensure slices don't overflow */
+            margin-right: 20px; /* Space between image and text */
+        }
+        .slice {
+            background-image: url('https://th.bing.com/th/id/OIP.cUdCULFXtxCaDdO9w7KgJAHaE8?rs=1&pid=ImgDetMain');
+            background-size: 200%; /* Increase size to fill slices */
+            position: relative;
+            transition: transform 0.8s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0; /* Start invisible for animation */
+        }
+        /* Position each slice to show the correct portion of the image */
+        .slice:nth-child(1) {
+            background-position: 0% 0%;
+        }
+        .slice:nth-child(2) {
+            background-position: 100% 0%;
+        }
+        .slice:nth-child(3) {
+            background-position: 0% 100%;
+        }
+        .slice:nth-child(4) {
+            background-position: 100% 100%;
+        }
+        .info-text {
+            font-size: 1.5em; /* Adjust font size */
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.8)); /* Neon black and teal gradient */
+            -webkit-background-clip: text; /* Clip background to text */
+            -webkit-text-fill-color: transparent; /* Make text transparent to show gradient */
+            max-width: 300px; /* Limit width for better readability */
+            text-align: left; /* Align text to the left */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>INTERNREC</h1>
+        <div class="nav-text">Menu | Navigate | About | Contact Us | Help</div>
+    </header>
+    
+    <div class="hover-text">
+        Prioritize time, skill, and visibility with the internship recruitment platform
+    </div>
+    
+    <div class="container">
+        <a class="frame" href="https://unsplash.com/photos/hEPmVFvF3Hs" target="_blank">
+            <!-- Slices will be generated here by JavaScript -->
+        </a>
+        <div class="info-text">
+            Explore a site that prioritizes time, skill, and connectivity.
+        </div>
+    </div>
+    
+    <button class="sign-up-button">Ready to Explore?</button>
+    
+    <script>
+        const frame = document.querySelector('.frame');
+        const nSliceX = 2; // Number of slices in X direction
+        const nSliceY = 2; // Number of slices in Y direction
+        const nSlice = nSliceX * nSliceY;
+
+        for (let i = 0; i < nSlice; i++) {
+            const slice = document.createElement('div');
+            slice.className = 'slice';
+            // Randomize initial position for floating effect
+            const xOffset = (Math.random() - 0.5) * 150; // Increased random X offset
+            const yOffset = (Math.random() - 0.5) * 150; // Increased random Y offset
+            slice.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            frame.appendChild(slice);
+        }
+
+        // Set timeout to animate opacity on load
+        window.onload = () => {
+            const slices = document.querySelectorAll('.slice');
+            slices.forEach((slice, index) => {
+                setTimeout(() => {
+                    slice.style.opacity = 1; // Fade in effect
+                    slice.style.transform = 'translate(0, 0)'; // Move to correct position
+                }, index * 100); // Delay each slice's appearance
+            });
+        };
+    </script>
+    
+    <footer>
+        <p>&copy; 2023 Your Company Name. All rights reserved.</p>
+    </footer>
+</body>
+</html>

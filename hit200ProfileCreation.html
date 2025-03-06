@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>User Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 0; /* No margin at the top for body */
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.8), rgba(255, 229, 204, 0.8));
+        }
+        .card {
+            background: url('https://th.bing.com/th/id/R.46efdb8469e4cf21caccbef4f59d5425?rik=gDSDRr4uqfkQQA&riu=http%3a%2f%2f24.media.tumblr.com%2f393071b3b69288bbeefcc164af12a185%2ftumblr_mpzzi59hjR1r8rjf0o1_500.gif&ehk=LPeNlXT95sSfQ0XqW2ktUhfUerEN29Vwd1RKq4UIxx4%3d&risl=&pid=ImgRaw&r=0') no-repeat center center; /* GIF background */
+            background-size: cover; /* Cover the entire card */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+            border: 2px solid transparent; /* Default transparent border for transition */
+            position: relative; /* Position for pseudo-element */
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid transparent; /* Transparent border */
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.8)); /* Match header gradient */
+            z-index: -1; /* Place behind card content */
+            border-radius: 0.25rem; /* Match card border radius */
+        }
+        .header-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.8));
+            color: white; /* Changed text color for better contrast */
+            padding: 20px 0; /* Increased padding for the footer */
+            position: fixed; /* Fixed position for the header */
+            top: 0; /* Position at the top */
+            left: 0; /* Align to the left */
+            right: 0; /* Align to the right */
+            z-index: 1000; /* Ensure it stays above other elements */
+        }
+        .main-body {
+            padding-top: 80px; /* Space for the fixed header */
+        }
+        .footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.8)); /* Same gradient as header */
+            color: white; /* Changed text color for better contrast */
+            padding: 20px 0; /* Padding for the footer */
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.9); /* Match body background */
+            border: 1px solid rgba(0, 255, 255, 0.8); /* Border color matching the header */
+        }
+        .form-control:focus {
+            border-color: rgba(0, 0, 0, 0.8); /* Darker border when focused */
+            box-shadow: none; /* Remove shadow on focus */
+        }
+        .profile-image-container {
+            position: relative;
+        }
+        .image-upload-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(50%, -50%);
+            display: none; /* Hidden initially */
+        }
+        #messageBox {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        /* Teal text for labels */
+        h6 {
+            color: teal; /* Change text color to teal */
+        }
+        .text-secondary {
+            color: teal !important; /* Ensure secondary text is also teal */
+        }
+        /* Teal color for username */
+        #userName {
+            color: teal; /* Change username color to teal */
+        }
+    </style>
+</head>
+<body>
+    <header class="header-footer py-3">
+        <div class="container">
+            <h1 class="text-center">User Profile</h1>
+        </div>
+    </header>
+
+    <div id="messageBox">Thank you, waiting for admin to approve profile. This might take a day or two.</div>
+
+    <div class="container">
+        <div class="main-body">
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center profile-image-container">
+                                <img id="profileImage" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User" class="rounded-circle" width="150">
+                                <button class="btn btn-primary image-upload-btn" id="uploadImageBtn">Change</button>
+                                <input type="file" class="form-control-file" id="imageUpload" accept="image/*" style="display: none;">
+                                <div class="mt-3">
+                                    <h4 id="userName">John Doe</h4> <!-- Username in teal -->
+                                    <p class="text-secondary mb-1" id="userRole">Full Stack Developer</p>
+                                    <p class="text-muted font-size-sm" id="userLocation">Bay Area, San Francisco, CA</p>
+                                    <button class="btn btn-primary">Follow</button>
+                                    <button class="btn btn-outline-primary">Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Full Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" id="fullName" value="Kenneth Valdez" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="email" id="email" value="example@example.com" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Phone</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" id="phone" value="(239) 816-9029" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Address</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" id="address" value="Bay Area, San Francisco, CA" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-info" id="editBtn" style="display: none;">Edit</button>
+                                    <button class="btn btn-success" id="saveBtn" style="display: none;">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6 class="d-flex align-items-center mb-3">Project Status</h6>
+                            <div id="projectStatus">
+                                <div class="row mb-2">
+                                    <div class="col-sm-6">
+                                        <small>Web Design</small>
+                                        <input type="text" class="form-control" value="80" id="webDesignStatus" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="progress mb-3" style="height: 5px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-6">
+                                        <small>Website Markup</small>
+                                        <input type="text" class="form-control" value="72" id="websiteMarkupStatus" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="progress mb-3" style="height: 5px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-6">
+                                        <small>One Page</small>
+                                        <input type="text" class="form-control" value="89" id="onePageStatus" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="progress mb-3" style="height: 5px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-6">
+                                        <small>Mobile Template</small>
+                                        <input type="text" class="form-control" value="55" id="mobileTemplateStatus" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="progress mb-3" style="height: 5px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-6">
+                                        <small>Backend API</small>
+                                        <input type="text" class="form-control" value="66" id="backendApiStatus" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="progress mb-3" style="height: 5px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-info" id="editProjectBtn" style="display: none;">Edit Project Status</button>
+                            <button class="btn btn-success" id="saveProjectBtn" style="display: none;">Save Project Status</button>
+                        </div>
+                    </div>
+
+                    <!-- Save Button for Profile -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success" id="finalSaveBtn">Save Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">© 2023 YourWebsite. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Simulating user authentication
+            const isProfileOwner = true; // Change to false to simulate a viewer
+
+            // Show edit button if the user is the profile owner
+            if (isProfileOwner) {
+                $('#editBtn').show();
+                $('#uploadImageBtn').show();
+                $('#editProjectBtn').show();
+            }
+
+            // Edit button functionality for profile info
+            $('#editBtn').click(function () {
+                $('input[type="text"], input[type="email"]').attr('readonly', false);
+                $(this).hide();
+                $('#saveBtn').show();
+            });
+
+            // Save button functionality for profile info
+            $('#saveBtn').click(function () {
+                alert('Profile updated successfully!');
+                $('input[type="text"], input[type="email"]').attr('readonly', true);
+                $(this).hide();
+                $('#editBtn').show();
+            });
+
+            // Edit button functionality for project status
+            $('#editProjectBtn').click(function () {
+                $('input[id$="Status"]').attr('readonly', false);
+                $(this).hide();
+                $('#saveProjectBtn').show();
+            });
+
+            // Save button functionality for project status
+            $('#saveProjectBtn').click(function () {
+                alert('Project status updated successfully!');
+                $('input[id$="Status"]').attr('readonly', true);
+                $(this).hide();
+                $('#editProjectBtn').show();
+            });
+
+            // Final Save button functionality
+            $('#finalSaveBtn').click(function () {
+                $('#messageBox').fadeIn().delay(5000).fadeOut();
+            });
+
+            // Image upload functionality
+            $('#uploadImageBtn').click(function () {
+                $('#imageUpload').click(); // Trigger the file input
+            });
+
+            $('#imageUpload').change(function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#profileImage').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
