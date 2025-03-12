@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team</title>
+    <style>
+        body {
+            font-family: tahoma;
+            background-color: #333333; /* Dark grey background */
+            display: flex;
+            margin: 0; /* Remove default margin */
+            flex-direction: column; /* Stack elements vertically */
+        }
+
+        .main {
+            display: flex;
+            flex: 1; /* Take up remaining space */
+        }
+
+        .sidebar {
+            width: 200px; /* Width of the sidebar */
+            background-color: rgba(246, 128, 128, 0.6); /* Neon pink */
+            padding: 20px;
+            border-radius: 10px 0 0 10px; /* Rounded corners on the left */
+            backdrop-filter: blur(10px); /* Glass effect */
+            color: white;
+            height: 100%; /* Full height */
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            text-align: center; /* Center the heading */
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            flex-grow: 1; /* Allow the list to grow and take available space */
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 10px; /* Add padding for better click area */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .sidebar ul li a:hover {
+            background-color: rgba(128, 128, 128, 0.8); /* Grey hover effect */
+        }
+
+        .follow-us {
+            text-align: center; /* Center the icons */
+            margin-top: 20px; /* Space above the follow us section */
+        }
+
+        .follow-us ul {
+            padding: 0;
+        }
+
+        .follow-us ul li {
+            display: inline-block; /* Display icons inline */
+            margin: 10px; /* Space between icons */
+        }
+
+        .follow-us ul li a {
+            font-size: 30px; /* Increase icon size */
+            color: white; /* Icon color */
+            transition: transform 0.3s, color 0.3s; /* Smooth transformations */
+        }
+
+        .follow-us ul li a:hover {
+            transform: scale(1.2); /* Enlarge icon on hover */
+            color: rgba(246, 128, 128, 0.8); /* Change color on hover */
+        }
+
+        .container {
+            flex: 1; /* Take up remaining space */
+            max-width: 1200px;
+            margin-left: 20px; /* Space between sidebar and content */
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .our-team {
+            padding: 30px 0 40px;
+            margin: 10px;
+            background: rgba(247, 245, 236, 0.8); /* Slightly transparent background */
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            flex: 1 1 calc(25% - 20px); /* 4 items per row */
+            box-sizing: border-box;
+            backdrop-filter: blur(10px); /* Glass effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .our-team .picture {
+            display: inline-block;
+            height: 130px;
+            width: 130px;
+            margin-bottom: 50px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .our-team .picture::before {
+            content: "";
+            width: 100%;
+            height: 0;
+            border-radius: 50%;
+            background-color: rgba(246, 128, 128, 0.6); /* Neon pink with transparency */
+            position: absolute;
+            bottom: 135%;
+            right: 0;
+            left: 0;
+            opacity: 0.9;
+            transform: scale(3);
+            transition: all 0.3s linear 0s;
+        }
+
+        .our-team:hover .picture::before {
+            height: 100%;
+        }
+
+        .our-team .picture img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            transform: scale(1);
+            transition: all 0.9s ease 0s;
+        }
+
+        .our-team:hover .picture img {
+            box-shadow: 0 0 0 14px rgba(247, 245, 236, 0.8); /* Adjusted for clarity */
+            transform: scale(0.7);
+        }
+
+        .our-team .title {
+            display: block;
+            font-size: 15px;
+            color: #4e5052;
+            text-transform: capitalize;
+        }
+
+        .our-team .social {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: rgba(246, 128, 128, 0.6); /* Neon pink with transparency */
+            position: absolute;
+            bottom: -100px;
+            left: 0;
+            transition: all 0.5s ease 0s;
+            backdrop-filter: blur(10px); /* Glass effect */
+            border-radius: 0 0 10px 10px; /* Rounded corners */
+        }
+
+        .our-team:hover .social {
+            bottom: 0;
+        }
+
+        .our-team .social li {
+            display: inline-block;
+        }
+
+        .our-team .social li a {
+            display: block;
+            padding: 10px;
+            font-size: 17px;
+            color: white;
+            transition: all 0.3s ease 0s;
+            text-decoration: none;
+        }
+
+        .our-team .social li a:hover {
+            color: rgba(246, 128, 128, 0.8); /* Neon pink on hover */
+            background-color: rgba(247, 245, 236, 0.8); /* Background for hover effect */
+        }
+
+        @media (max-width: 768px) {
+            .our-team {
+                flex: 1 1 calc(50% - 20px); /* 2 items per row */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .our-team {
+                flex: 1 1 100%; /* 1 item per row */
+            }
+        }
+    </style>
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="main">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="https://example.com/home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="https://example.com/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="https://example.com/about"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="https://example.com/contact"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                <li><a href="https://example.com/explore"><i class="fas fa-compass"></i> Explore</a></li>
+            </ul>
+            <h2>Follow Us</h2>
+            <div class="follow-us">
+                <ul>
+                    <li><a href="https://instagram.com"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="https://tiktok.com"><i class="fab fa-tiktok"></i></a></li>
+                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
+                    <li><a href="https://whatsapp.com"><i class="fab fa-whatsapp"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <!-- Team Member Profiles -->
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=1" alt="Alice Johnson">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">RUFARO C MUSVUURWA</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=2" alt="Bob Smith">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">RONIUS T CHAPEYAMA</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=3" alt="Charlie Brown">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">NOTHANDO MUTYORAMWENDO</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=4" alt="Diane McCarthy">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">TIMOTHY MUTSIKWI</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=5" alt="Eve Roberts">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">PANASHE MUDHOKWANI</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=6" alt="Franklin Pierce">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">PRECIOUS CHARLIE</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=7" alt="Grace Lee">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">TAWANANYASHA MATINGO</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=8" alt="Henry Ford">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">SEON DOKA</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=9" alt="Ivy Adams">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">TRUST MPINYURI</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=10" alt="Jack Wilson">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">CHARLENE SARAI</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=12" alt="Laura Green">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name">KRISHNA MUSARAH</h3>
+                        <h4 class="title">ISA STUDENT</h4>
+                    </div>
+                    <ul class="social">
+                        <li><a href="#" class="fa fa-facebook" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-twitter" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-google-plus" aria-hidden="true"></a></li>
+                        <li><a href="#" class="fa fa-linkedin" aria-hidden="true"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
