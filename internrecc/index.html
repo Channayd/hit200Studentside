@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Internship Recruitment Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://th.bing.com/th/id/OIP.XZ1ptKXFloznpyPBDykNNAHaFj?w=1600&h=1200&rs=1&pid=ImgDetMain') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #passkey-form {
+            margin-top: 80px;
+        }
+        #view-profile {
+            display: none;
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Passkey Form -->
+    <div id="passkey-form" class="container">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center">Company Login</h3>
+                <form id="emailForm">
+                    <div class="form-group">
+                        <label for="companyEmail">Enter your company email:</label>
+                        <input type="email" class="form-control" id="companyEmail" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Passkey</button>
+                </form>
+                <div id="passkeySection" style="display: none;">
+                    <div class="form-group">
+                        <label for="passkey">Enter the passkey sent to your email:</label>
+                        <input type="text" class="form-control" id="passkey" required>
+                    </div>
+                    <button type="button" class="btn btn-success" id="validatePasskeyBtn">Validate Passkey</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile View Page -->
+    <div id="view-profile" class="container">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center">Student Profile</h3>
+                <div class="text-center">
+                    <img id="profileImageDisplay" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User" class="rounded-circle" width="150">
+                    <h2 id="userNameDisplay">John Doe</h2>
+                    <p id="bioDisplay" class="text-muted">A passionate student with a love for coding.</p>
+                </div>
+                <div class="mt-4">
+                    <h4>Profile Details</h4>
+                    <p><strong>Full Name:</strong> <span id="fullNameDisplay">John Doe</span></p>
+                    <p><strong>Email:</strong> <span id="emailDisplay">john.doe@example.com</span></p>
+                    <p><strong>Phone:</strong> <span id="phoneDisplay">123-456-7890</span></p>
+                    <p><strong>Address:</strong> <span id="addressDisplay">123 Main St, City, Country</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle email form submission
+            $('#emailForm').submit(function (e) {
+                e.preventDefault();
+                const email = $('#companyEmail').val();
+
+                $.ajax({
+                    url: 'send_passkey.php',
+                    type: 'POST',
+                    data: { email: email },
+                    success: function (response) {
+                        const res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            $('#passkeySection').show();
+                            alert('Passkey sent to your email. Check your inbox.');
+                        } else {
+                            alert('Failed to send passkey. Please try again.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+
+            // Handle passkey validation
+            $('#validatePasskeyBtn').click(function () {
+                const enteredPasskey = $('#passkey').val();
+
+                $.ajax({
+                    url: 'validate_passkey.php',
+                    type: 'POST',
+                    data: { passkey: enteredPasskey },
+                    success: function (response) {
+                        const res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            alert('Passkey validated successfully!');
+                            $('#passkey-form').hide();
+                            $('#view-profile').show(); // Show the profile view section
+                        } else {
+                            alert('Invalid or expired passkey. Please try again.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
