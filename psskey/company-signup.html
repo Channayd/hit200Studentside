@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Sign Up - INTERNREC</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>INTERNREC</h1>
+    <nav>
+      <a href="admin.html">Admin</a>
+      <a href="about.html">About</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
+  <main>
+    <div class="form-container">
+      <h2>Company Sign Up</h2>
+      <input type="email" id="email" placeholder="Enter Email">
+      <input type="password" id="password" placeholder="Enter Password">
+      <button class="button" onclick="validateCredentials()">Submit</button>
+    </div>
+  </main>
+  <footer>
+    <button onclick="window.location.href='company-signup.html'">⚫</button>
+  </footer>
+  <div id="messageBox" class="message-box"></div>
+  <script>
+    let attempts = 3;
+
+    function validateCredentials() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const messageBox = document.getElementById('messageBox');
+
+      const validCredentials = {
+        'econet.ac.zw': 'eco#15',
+        'telco.ac.zw': 'tel#19',
+        'cbz.ac.zw': 'cb#12'
+      };
+
+      if (validCredentials[email] === password) {
+        window.location.href = 'passkey-verify.html';
+      } else {
+        attempts--;
+        if (attempts > 0) {
+          messageBox.textContent = `Failed attempt, ${attempts} trials remaining.`;
+        } else {
+          messageBox.textContent = 'You have been logged out. Contact the admin.';
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 3000);
+        }
+        messageBox.style.display = 'block';
+        setTimeout(() => {
+          messageBox.style.display = 'none';
+        }, 5000); // Hide message after 5 seconds
+      }
+    }
+  </script>
+</body>
+</html>

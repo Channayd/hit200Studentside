@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - INTERNREC</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>INTERNREC</h1>
+    <nav>
+      <a href="admin.html">Admin</a>
+      <a href="about.html">About</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
+  <main>
+    <div class="loading" id="loading">
+      <p>Loading...</p>
+    </div>
+    <div id="content" style="display: none;">
+      <h2>WHERE INTERNSHIPS FIND YOU</h2>
+      <p>In a second...</p>
+      <button class="button" onclick="window.location.href='signup.html'">READY TO SIGN UP</button>
+    </div>
+  </main>
+  <footer>
+    <button onclick="window.location.href='company-signup.html'">⚫</button>
+  </footer>
+  <script>
+    // Simulate loading animation
+    setTimeout(() => {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    }, 5000); // 5 seconds
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passkey Verification - INTERNREC</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>INTERNREC</h1>
+    <nav>
+      <a href="admin.html">Admin</a>
+      <a href="about.html">About</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
+  <main>
+    <div class="form-container">
+      <h2>Passkey Verification</h2>
+      <p>Your passkey: <span id="passkey"></span></p>
+      <input type="text" id="passkeyInput" placeholder="Enter Passkey">
+      <button class="button" onclick="verifyPasskey()">Submit</button>
+    </div>
+  </main>
+  <footer>
+    <button onclick="window.location.href='company-signup.html'">⚫</button>
+  </footer>
+  <div id="messageBox" class="message-box"></div>
+  <script>
+    let passkey = generatePasskey();
+    document.getElementById('passkey').textContent = passkey;
+
+    function generatePasskey() {
+      return Math.floor(100000 + Math.random() * 900000); // 6-digit number
+    }
+
+    function verifyPasskey() {
+      const input = document.getElementById('passkeyInput').value;
+      const messageBox = document.getElementById('messageBox');
+
+      if (input === passkey.toString()) {
+        window.location.href = 'page3.html';
+      } else {
+        messageBox.textContent = 'You\'ve been put on hold because of the wrong passkey. Contact the admin.';
+        messageBox.style.display = 'block';
+        setTimeout(() => {
+          messageBox.style.display = 'none';
+        }, 5000); // Hide message after 5 seconds
+      }
+    }
+
+    // Change passkey every 30 seconds
+    setInterval(() => {
+      passkey = generatePasskey();
+      document.getElementById('passkey').textContent = passkey;
+    }, 30000);
+  </script>
+</body>
+</html>
